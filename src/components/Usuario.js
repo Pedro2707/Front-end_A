@@ -1,6 +1,20 @@
-import React from 'react';
-
+import React, {useContext} from 'react';
+import { signin } from '../api/user';
+import { AuthContext } from '../context/authContext';
 const Usuario = () => {
+  const { token, login, logout } = useContext(AuthContext);
+  const submit = async (event) =>{
+    event.preventDefault();
+    const usuario = document.getElementById('usuario').value;
+    console.log("🚀 ~ submit ~ usuario:", usuario)
+    const password = document.getElementById('password').value;
+    if (!usuario || !password) {
+      return;
+    }
+  
+    const {accessToken} = await signin(usuario, password);
+    login(accessToken);
+  }
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-black">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -13,7 +27,7 @@ const Usuario = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-gray-800 p-6 rounded-lg shadow-lg">
-        <form action="#" method="POST" className="space-y-6">
+        <div  className="space-y-6">
           <div>
             <label htmlFor="usuario" className="block text-sm font-medium leading-6 text-gray-300 text-center">
               Usuario
@@ -57,13 +71,14 @@ const Usuario = () => {
 
           <div>
             <button
-              type="submit"
+              type="button"
+              onClick={submit}
               className="flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-md hover:bg-indigo-500 transition duration-200 ease-in-out"
             >
               Iniciar sesión
             </button>
           </div>
-        </form>
+        </div>
 
         <p className="mt-10 text-center text-sm text-gray-500">
           ¿No eres miembro?{' '}
