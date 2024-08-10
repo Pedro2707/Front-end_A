@@ -1,33 +1,40 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { signin } from '../api/user';
 import { AuthContext } from '../context/authContext';
+
 const Usuario = () => {
   const { token, login, logout } = useContext(AuthContext);
-  const submit = async (event) =>{
+
+  const submit = async (event) => {
     event.preventDefault();
     const usuario = document.getElementById('usuario').value;
-    console.log("🚀 ~ submit ~ usuario:", usuario)
+    console.log("🚀 ~ submit ~ usuario:", usuario);
     const password = document.getElementById('password').value;
     if (!usuario || !password) {
       return;
     }
-  
-    const {accessToken} = await signin(usuario, password);
+
+    const { accessToken } = await signin(usuario, password);
     login(accessToken);
-  }
+  };
+
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-black">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-3xl font-bold leading-9 tracking-tight text-gray-300">
+    <div 
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://tiempo.hn/wp-content/uploads/2020/12/WhatsApp-Image-2020-08-14-at-9.30.09-AM-1.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-center text-3xl font-bold leading-9 tracking-tight text-gray-300">
           Iniciar sesión
         </h2>
         <p className="mt-2 text-center text-sm text-gray-500">
           Accede a tu cuenta para continuar
         </p>
-      </div>
-
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-gray-800 p-6 rounded-lg shadow-lg">
-        <div  className="space-y-6">
+        <div className="mt-6 space-y-6">
           <div>
             <label htmlFor="usuario" className="block text-sm font-medium leading-6 text-gray-300 text-center">
               Usuario
@@ -60,13 +67,7 @@ const Usuario = () => {
                 placeholder="Ingresa tu contraseña"
               />
             </div>
-            <div className="flex justify-between mt-2">
-              <div className="text-sm">
-                <a href="#" className="font-semibold text-indigo-400 hover:text-indigo-500">
-                  ¿Olvidaste tu contraseña?
-                </a>
-              </div>
-            </div>
+
           </div>
 
           <div>
@@ -79,15 +80,9 @@ const Usuario = () => {
             </button>
           </div>
         </div>
-
-        <p className="mt-10 text-center text-sm text-gray-500">
-          ¿No eres miembro?{' '}
-          <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-            Regístrate aquí
-          </a>
-        </p>
-      </div>
+       </div>
     </div>
+
   );
 }
 
