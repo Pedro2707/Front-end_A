@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css'; // Importa el CSS predeterminado de react-calendar
 
 const DetallesCitaMedica = () => {
+  const [fecha, setFecha] = useState(new Date()); // Estado para la fecha seleccionada
+
+  const handleFechaChange = (date) => {
+    setFecha(date); // Actualiza el estado con la fecha seleccionada
+  };
+
   return (
     <div className="mb-4">
       <h3 className="text-2xl font-bold text-gray-800 mb-4">Detalles de la Cita Médica</h3>
@@ -21,10 +29,18 @@ const DetallesCitaMedica = () => {
             <option value="cirugia_plastica">Cirugía Plástica</option>
           </select>
         </div>
+        
         <div className="border rounded-lg shadow-md p-4 bg-gray-50">
           <label className="block text-gray-700">Fecha:</label>
-          <input type="date" name="fecha" className="w-full border border-gray-300 p-2 rounded-lg" />
+          <div className="border border-gray-300 p-2 rounded-lg">
+            <Calendar 
+              onChange={handleFechaChange} 
+              value={fecha} 
+              className="w-full"
+            />
+          </div>
         </div>
+
         <div className="border rounded-lg shadow-md p-4 bg-gray-50">
           <label className="block text-gray-700">Hora:</label>
           <input type="time" name="hora" className="w-full border border-gray-300 p-2 rounded-lg" defaultValue="08:00" />
@@ -35,5 +51,7 @@ const DetallesCitaMedica = () => {
 }
 
 export default DetallesCitaMedica;
+
+
 
 
