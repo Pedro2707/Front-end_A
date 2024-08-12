@@ -1,14 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { signin } from '../api/user';
 import { AuthContext } from '../context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 const Usuario = () => {
   const { token, login, logout } = useContext(AuthContext);
+  const navigation = useNavigate()
+  
+  useEffect(()=>{
+    if(token){
+      navigation('/dashboard');
+    }
+  },[token]);
 
   const submit = async (event) => {
     event.preventDefault();
     const usuario = document.getElementById('usuario').value;
-    console.log("🚀 ~ submit ~ usuario:", usuario);
     const password = document.getElementById('password').value;
     if (!usuario || !password) {
       return;

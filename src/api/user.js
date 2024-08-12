@@ -1,10 +1,9 @@
 import axios from 'axios';
+import { domainUrlAPI, loginUrl } from './constants';
 
 export const signin = async (username, password) => {
-  console.log("🚀 ~ signin ~ username, password:", username, password)
   try {
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, { username, password });
-    console.log("🚀 ~ signin ~ response:", response)
+    const response = await axios.post(`${domainUrlAPI}/${loginUrl}`, { username, password });
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
