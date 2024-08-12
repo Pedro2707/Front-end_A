@@ -6,6 +6,7 @@ import AgendarCita from './components/Agendarcita';
 import './index.css';
 import { AuthProvider } from './context/authContext';
 import DashboardPage from './pages/DashboardPage';
+import CitasPage from './pages/CitasPage';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
             <Route path="/usuario" element={<Usuario />} />
             <Route path="/agendar-cita" element={<AgendarCita />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard/citas/:page" element={<CitasPage />} />
+            <Route path="/dashboard/personas" element={<DashboardPage />} />
           </Routes>
         </div>
       </AuthProvider>
