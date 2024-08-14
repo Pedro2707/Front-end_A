@@ -7,6 +7,7 @@ import './index.css';
 import { AuthProvider } from './context/authContext';
 import DashboardPage from './pages/DashboardPage';
 import CitasPage from './pages/CitasPage';
+import PersonasPage from './pages/PersonasPage';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
             <Route path="/agendar-cita" element={<AgendarCita />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/dashboard/citas/:page" element={<CitasPage />} />
-            <Route path="/dashboard/personas" element={<DashboardPage />} />
+            <Route path="/dashboard/personas/:page" element={<PersonasPage />} />
           </Routes>
         </div>
       </AuthProvider>
