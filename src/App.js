@@ -8,7 +8,8 @@ import { AuthProvider } from './context/authContext';
 import DashboardPage from './pages/DashboardPage';
 import CitasPage from './pages/CitasPage';
 import PersonasPage from './pages/PersonasPage';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <Router>
@@ -25,7 +26,7 @@ function App() {
           </Routes>
         </div>
       </AuthProvider>
-
+      <ToastContainer />
     </Router>
 
   );

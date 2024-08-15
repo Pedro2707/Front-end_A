@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../layout/DashboardLayout";
 import { findCitaMedicaByPage } from "../api/citaMedica";
 import { useParams, useNavigate } from "react-router-dom";
+import CitaCard from "../components/dashboard/CitaCard";
+import { toast } from 'react-toastify';
 
 const CitasPage = () => {
   const { page: pageParam } = useParams();
   const navigate = useNavigate();
   const [page, setPage] = useState(parseInt(pageParam) || 1);
   const [citas, setCitas] = useState([]);
-  const [editingId, setEditingId] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   const [editedCita, setEditedCita] = useState({});
   const totalPages = 5; // Cambia esto según el total de páginas disponibles
 
@@ -17,33 +19,33 @@ const CitasPage = () => {
       const fetchedCitas = await findCitaMedicaByPage(page);
       setCitas(fetchedCitas);
     })();
-  }, [page]);
-
-  const handleEditClick = (cita) => {
-    setEditingId(cita.id);
+  }, [page, JSON.stringify(citas) ]);
+  const handleSelectedId = (id) => {
+    setSelectedId(id);
+  };
+  const handleEdit = (cita) => {
+    handleSelectedId(cita.id);
     setEditedCita(cita);
   };
 
-  const handleCancelClick = () => {
-    setEditingId(null);
+  const handleCancel = () => {
+    handleSelectedId(null);
     setEditedCita({});
   };
-
-  const handleSaveClick = () => {
-    // Aquí puedes hacer una solicitud a la API para guardar los cambios
-    // Ejemplo: await saveCitaMedica(editedCita);
-    setEditingId(null);
-  };
-
-  const handleChange = (e) => {
-    setEditedCita({ ...editedCita, [e.target.name]: e.target.value });
-  };
-
+ 
   const handlePageChange = (newPage) => {
     setPage(newPage);
     navigate(`/dashboard/citas/${newPage}`);
   };
-
+  const handleSave =(updatedCita) =>{
+    setCitas(citas.map((cita) => (cita.id === updatedCita.id ? updatedCita : cita)));
+    handleSelectedId(null);
+    toast.success('Cita actuaizada correctamente');
+  }
+const handleDelete = async () => {
+  setCitas(citas.filter((cita) => cita.id !== editedCita.id));
+  toast.success('Cita eliminada correctamente');
+}
   return (
     <DashboardLayout>
       <div className="max-w-4xl mx-auto mt-8 p-6 bg-gray-100 rounded-lg shadow-lg">
@@ -52,101 +54,7 @@ const CitasPage = () => {
         </h1>
 
         <div className="space-y-6">
-          {citas.map((cita) => (
-            <div
-              key={cita.id}
-              className="bg-white p-6 rounded-lg shadow-md transition-shadow hover:shadow-lg"
-            >
-              {editingId === cita.id ? (
-                <>
-                  <input
-                    type="text"
-                    name="cita"
-                    value={editedCita.cita}
-                    onChange={handleChange}
-                    className="w-full p-2 mb-2 border border-gray-300 rounded"
-                  />
-                  <input
-                    type="text"
-                    name="fecha"
-                    value={editedCita.fecha}
-                    onChange={handleChange}
-                    className="w-full p-2 mb-2 border border-gray-300 rounded"
-                  />
-                  <input
-                    type="text"
-                    name="doctor"
-                    value={editedCita.doctor}
-                    onChange={handleChange}
-                    className="w-full p-2 mb-2 border border-gray-300 rounded"
-                  />
-                  <input
-                    type="text"
-                    name="doctor_telefono"
-                    value={editedCita.doctor_telefono}
-                    onChange={handleChange}
-                    className="w-full p-2 mb-2 border border-gray-300 rounded"
-                  />
-                  <input
-                    type="text"
-                    name="doctor_correo"
-                    value={editedCita.doctor_correo}
-                    onChange={handleChange}
-                    className="w-full p-2 mb-2 border border-gray-300 rounded"
-                  />
-                  <textarea
-                    name="observaciones"
-                    value={editedCita.observaciones}
-                    onChange={handleChange}
-                    className="w-full p-2 mb-2 border border-gray-300 rounded"
-                  />
-                  <div className="flex justify-end space-x-4 mt-4">
-                    <button
-                      className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg"
-                      onClick={handleSaveClick}
-                    >
-                      Guardar
-                    </button>
-                    <button
-                      className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg"
-                      onClick={handleCancelClick}
-                    >
-                      Cancelar
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <h2 className="text-xl font-medium text-gray-700 mb-2">
-                    {cita.cita}
-                  </h2>
-                  <p className="text-gray-600 mb-1">
-                    <strong>Fecha:</strong> {cita.fecha}
-                  </p>
-                  <p className="text-gray-600 mb-1">
-                    <strong>Doctor:</strong> {cita.doctor}
-                  </p>
-                  <p className="text-gray-600 mb-1">
-                    <strong>Teléfono:</strong> {cita.doctor_telefono}
-                  </p>
-                  <p className="text-gray-600 mb-1">
-                    <strong>Correo:</strong> {cita.doctor_correo}
-                  </p>
-                  <p className="text-gray-600">
-                    <strong>Observaciones:</strong> {cita.observaciones}
-                  </p>
-                  <div className="flex justify-end mt-4">
-                    <button
-                      className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg"
-                      onClick={() => handleEditClick(cita)}
-                    >
-                      Editar
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
+          {citas.map((cita) => <CitaCard key={cita.id} cita={cita} selectedId={selectedId} handleSelectedId={handleSelectedId} handleCancel={handleCancel} handleEdit={handleEdit} handleSave={handleSave} handleDelete={handleDelete} />)}
         </div>
 
         <div className="flex justify-center items-center mt-8 space-x-2">

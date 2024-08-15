@@ -78,9 +78,7 @@ const DashboardLayout = ({ children }) => {
         </div>
       </aside>
 
-      <div className="flex-1 p-6 bg-gray-100 sm:ml-64">
-        <div className="flex justify-between items-center mb-8">
-        </div>
+      <div className="flex-1 p-6 bg-gray-100 sm:ml-64 h-screen flex justify-center align-middle">
         {children}
       </div>
     </div>
