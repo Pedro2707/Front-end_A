@@ -99,13 +99,13 @@ const CitaCard = ({ cita, selectedId, handleCancel, handleEdit, handleSave, hand
             <strong>Fecha:</strong> {cita.fecha}
           </p>
           <p className="text-gray-600 mb-1">
-            <strong>Doctor:</strong> {cita.doctor}
+            <strong>Doctor:</strong> {cita.doctor.nombre}
           </p>
           <p className="text-gray-600 mb-1">
-            <strong>Teléfono:</strong> {cita.doctor_telefono}
+            <strong>Teléfono:</strong> {cita.doctor.telefono}
           </p>
           <p className="text-gray-600 mb-1">
-            <strong>Correo:</strong> {cita.doctor_correo}
+            <strong>Correo:</strong> {cita.doctor.correo}
           </p>
           <p className="text-gray-600">
             <strong>Observaciones:</strong> {cita.observaciones}

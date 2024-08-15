@@ -54,7 +54,7 @@ const handleDelete = async () => {
         </h1>
 
         <div className="space-y-6">
-          {citas.map((cita) => <CitaCard key={cita.id} cita={cita} selectedId={selectedId} handleSelectedId={handleSelectedId} handleCancel={handleCancel} handleEdit={handleEdit} handleSave={handleSave} handleDelete={handleDelete} />)}
+          {citas.map((cita) => <CitaCard key={`cita.${cita.id}`} cita={cita} selectedId={selectedId} handleSelectedId={handleSelectedId} handleCancel={handleCancel} handleEdit={handleEdit} handleSave={handleSave} handleDelete={handleDelete} />)}
         </div>
 
         <div className="flex justify-center items-center mt-8 space-x-2">
